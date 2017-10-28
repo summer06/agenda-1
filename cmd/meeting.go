@@ -15,29 +15,127 @@
 package cmd
 
 import (
+	"controller"
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
 
-// meetingCmd represents the meeting command
-var meetingCmd = &cobra.Command{
-	Use:   "meeting",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+var createMeetingCmd = &cobra.Command{
+	Use:   "createMeeting",
+	Short: "create a new meeting",
+	Long: `The createMeeting command help to create a new meeting, user should
+	 offer meeting title, meeting participants, start time and end time.
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("meeting called")
+		title, _ := cmd.Flags().GetString("title")
+		fmt.Println(title)
+		participants, _ := cmd.Flags().GetString("participants")
+		fmt.Println(participants)
+		participantsArray := strings.Split(participants, ",")
+		start, _ := cmd.Flags().GetString("start")
+		fmt.Println(start)
+		end, _ := cmd.Flags().GetString("end")
+		fmt.Println(end)
+
+		controller.CreateMeeting(title, participantsArray, start, end)
+	},
+}
+
+var modifyMeetingCmd = &cobra.Command{
+	Use:   "modifyMeeting",
+	Short: "add or delete  participants",
+	Long: `The modifyMeeting command allow user to add participants or
+	delete participants to a specific meeting.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		title, _ := cmd.Flags().GetString("title")
+		fmt.Println(title)
+		addStr, _ := cmd.Flags().GetString("add")
+		fmt.Println(addStr)
+		addParticipants := strings.Split(addStr, ",")
+		deleteStr, _ := cmd.Flags().GetString("delete")
+		fmt.Println(deleteStr)
+		deleteParticipants := strings.Split(deleteStr, ",")
+
+		controller.ModifyMeeting(title, addParticipants, deleteParticipants)
+	},
+}
+
+var queryMeetingCmd = &cobra.Command{
+	Use:   "queryMeeting",
+	Short: "query meeting during a time space",
+	Long: `The queryMeeting command allow user to query meetings during a time
+	space, user may be host or participant of these meetings`,
+	Run: func(cmd *cobra.Command, args []string) {
+		start, _ := cmd.Flags().GetString("start")
+		fmt.Println(start)
+		end, _ := cmd.Flags().GetString("end")
+		fmt.Println(end)
+
+		controller.QueryMeeting(start, end)
+	},
+}
+
+var cancelMeetingCmd = &cobra.Command{
+	Use:   "cancelMeeting",
+	Short: "cancel the meeting as host",
+	Long:  `The cancelMeeting command allow user to cancel a meeting as a host`,
+	Run: func(cmd *cobra.Command, args []string) {
+		title, _ := cmd.Flags().GetString("title")
+		fmt.Println(title)
+
+		controller.CancelMeeting(title)
+	},
+}
+
+var quitMeetingCmd = &cobra.Command{
+	Use:   "quitMeeting",
+	Short: "quit the meeting as participant",
+	Long:  `The quitMeeting command allow user to quit a meeting as a participant`,
+	Run: func(cmd *cobra.Command, args []string) {
+		title, _ := cmd.Flags().GetString("title")
+		fmt.Println(title)
+
+		controller.QuitMeeting(title)
+	},
+}
+
+var clearMeetingCmd = &cobra.Command{
+	Use:   "clearMeeting",
+	Short: "clear all meetings as host",
+	Long: `The clearMeeting command allow user to clear all the meeting in which the
+	 user is host`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("clear all meetings")
+
+		controller.ClearMeeting()
 	},
 }
 
 func init() {
-	RootCmd.AddCommand(meetingCmd)
+	RootCmd.AddCommand(createMeetingCmd)
+	RootCmd.AddCommand(modifyMeetingCmd)
+	RootCmd.AddCommand(queryMeetingCmd)
+	RootCmd.AddCommand(cancelMeetingCmd)
+	RootCmd.AddCommand(quitMeetingCmd)
+	RootCmd.AddCommand(clearMeetingCmd)
 
+	createMeetingCmd.Flags().StringP("title", "t", "", "the title of the meeting")
+	createMeetingCmd.Flags().StringP("participants", "p", "", "participants of the meeting")
+	createMeetingCmd.Flags().StringP("start", "s", "", "start time of the meeting")
+	createMeetingCmd.Flags().StringP("end", "e", "", "end time of the meeting")
+
+	modifyMeetingCmd.Flags().StringP("title", "t", "", "the title of the meeting")
+	modifyMeetingCmd.Flags().StringP("add", "a", "", "add participants")
+	modifyMeetingCmd.Flags().StringP("delete", "d", "", "delete participants")
+
+	queryMeetingCmd.Flags().StringP("start", "s", "", "start time of the query")
+	queryMeetingCmd.Flags().StringP("end", "e", "", "end time of the query")
+
+	quitMeetingCmd.Flags().StringP("title", "t", "", "the title of the meeting")
+
+	cancelMeetingCmd.Flags().StringP("title", "t", "", "the title of the meeting")
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
