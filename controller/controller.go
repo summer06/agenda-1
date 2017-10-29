@@ -9,6 +9,14 @@ import (
 
 var users Usermap
 
+//初始化所有的数据结构
+func initialization() bool {
+	users = make(Usermap)
+	//meetings = ...
+	//currentuser = ...
+	return true
+}
+
 func writeToFile() {
 	//write users
 	//write meetings
@@ -45,14 +53,8 @@ func Register(username, password, email, telphone string) {
 	} else {
 		fmt.Println(username, password, email, telphone, "register failed!")
 	}
+	//todo : call the writetofile func
 	return
-}
-
-func initialization() bool {
-	users = make(Usermap)
-	//meetings = ...
-	//currentuser = ...
-	return true
 }
 
 func isUserNameValid(username string) (bool, error) {
@@ -92,8 +94,21 @@ func isTelNumberValid(telNum string) (bool, error) {
 }
 
 func Login(username, password string) {
-	//todo: user map find this user
-
+	initialization()
+	//todo : check if current user alright exist
+	//if exist then suggest logout
+	//if not do follows
+	user := users.QueryUser(username)
+	if user != nil {
+		if user.password != password {
+			fmt.Println("Login failed : wrong password!")
+		} else {
+			// todo : change the current user and write to file
+			fmt.Println("Login!")
+		}
+	} else {
+		fmt.Println("Login failed : wrong user!")
+	}
 }
 
 func Logout() {
