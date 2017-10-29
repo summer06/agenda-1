@@ -1,7 +1,7 @@
 package fileio
 
 import (
-	"encode/json"
+	"encodng/json"
 	"fmt"
 	"io/ioutil"
 )
