@@ -1,19 +1,19 @@
 package entity
 
 type User struct {
-	username  string
-	password  string
-	email     string
-	telephone string
+	Username  string
+	Password  string
+	Email     string
+	Telephone string
 }
 
 //用于外部可以构造新的user实例
 func NewUser(u_name, p_word, e_mail, t_phone string) *User {
 	newUser := User{
-		username:  u_name,
-		password:  p_word,
-		email:     e_mail,
-		telephone: t_phone,
+		Username:  u_name,
+		Password:  p_word,
+		Email:     e_mail,
+		Telephone: t_phone,
 	}
 	return &newUser
 }
@@ -25,12 +25,20 @@ type Usermap map[string]*User
 
 //将一个user实例加入map
 func (usermap Usermap) AddUser(user *User) bool {
-	usermap[user.username] = user
+	_, ok := usermap[user.Username]
+	if ok {
+		return false
+	}
+	usermap[user.Username] = user
 	return true
 }
 
 //从map中删除一个user实例
 func (usermap Usermap) DeleteUser(username string) bool {
+	_, ok := usermap[username]
+	if !ok {
+		return false
+	}
 	delete(usermap, username)
 	return true
 }
