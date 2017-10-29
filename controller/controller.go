@@ -124,11 +124,14 @@ func Login(username, password string) {
 }
 
 func Logout() {
-
+	//todo: clear current user
 }
 
 func ListUser() {
-
+	initialization()
+	for user := range users {
+		fmt.Println(user)
+	}
 }
 
 func DeleteUser() {
