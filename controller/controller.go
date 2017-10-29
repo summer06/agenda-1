@@ -3,10 +3,11 @@ package controller
 import (
 	"fmt"
 	//"log"
+	// "agenda/entity"
 	"regexp"
 )
 
-//var users map[string]User
+// var users entity.Usermap
 
 func init() {
 	//users = ...
@@ -52,6 +53,15 @@ func Register(username, password, email, telphone string) {
 	//	users[username] = User{username,password,email,telphone}
 	//	fmt.Println("user register successed!")
 	//}
+
+	//夏君测试userMap部分
+	// users = make(entity.Usermap)
+	// user := entity.NewUser(username, password, email, telphone)
+	// if users.AddUser(user) {
+	// 	fmt.Println("add success")
+	// } else {
+	// 	fmt.Println("add fail")
+	// }
 
 	//todo: output successed
 	fmt.Println(username, password, email, telphone, "register successed!")
