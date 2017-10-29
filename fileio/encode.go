@@ -14,14 +14,14 @@ func StructToJson(s interface{}) []byte {
 	return b
 }
 
-func ReadFile(filename string) (interface{}, error) {
+func ReadFile(filename string) ([]map[string]interface{}, error) {
 	bytes, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Println("ReadFile: ", err.Error())
 		return nil, err
 	}
-	var xxx interface{}
-	if err := json.Unmarshal(bytes, xxx); err != nil {
+	var xxx []map[string]interface{}
+	if err := json.Unmarshal(bytes, &xxx); err != nil {
 		fmt.Println("Unmarshal: ", err.Error())
 		return nil, err
 	}

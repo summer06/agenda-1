@@ -11,12 +11,22 @@ import (
 var users Usermap
 
 //初始化所有的数据结构
-func initialization() bool {
+func initialization() {
 	users = make(Usermap)
-	t, _ := fileio.ReadFile("user.json")
-	fmt.Println("init ：", t)
+	readFromFile()
+	//meetings ....
+}
 
-	return true
+func readFromFile() {
+	//read users
+	t, _ := fileio.ReadFile("user.json")
+	fmt.Println("t: ", t)
+	for _, u := range t {
+		//fmt.Println(u)
+		// 这一句很长很丑陋的代码，里面的interface{}要断言才能使用，这里没有写断言的检查，可能引发panic
+		users.AddUser(NewUser(u["Username"].(string), u["Password"].(string), u["Email"].(string), u["Telephone"].(string)))
+	}
+	//todo: read meetings and current user
 }
 
 func writeToFile() {
