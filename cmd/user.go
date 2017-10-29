@@ -15,7 +15,7 @@
 package cmd
 
 import (
-	"controller"
+	"agenda/controller"
 	"fmt"
 
 	"github.com/spf13/cobra"
