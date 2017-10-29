@@ -8,20 +8,14 @@ import (
 	"regexp"
 )
 
-//var users map[string]User
-
-func init() {
-	//users = ...
-	//meetings = ...
-	//currentuser = ...
-}
+var users Usermap
 
 //初始化所有的数据结构
 func initialization() bool {
 	users = make(Usermap)
-	users, _ = fileio.ReadFile("user.json")
-	//meetings = ...
-	//currentuser = ...
+	t, _ := fileio.ReadFile("user.json")
+	fmt.Println("init ：", t)
+
 	return true
 }
 
@@ -108,7 +102,7 @@ func Login(username, password string) {
 	//if not do follows
 	user := users.QueryUser(username)
 	if user != nil {
-		if user.password != password {
+		if user.Password != password {
 			fmt.Println("Login failed : wrong password!")
 		} else {
 			// todo : change the current user and write to file
