@@ -3,16 +3,11 @@ package controller
 import (
 	"fmt"
 	//"log"
+	. "agenda/entity"
 	"regexp"
 )
 
-//var users map[string]User
-
-func init() {
-	//users = ...
-	//meetings = ...
-	//currentuser = ...
-}
+var users Usermap
 
 func writeToFile() {
 	//write users
@@ -31,31 +26,33 @@ func Register(username, password, email, telphone string) {
 	}
 	b, err = isPasswordValid(password)
 	if false == b {
-		fmt.Printf("ERROR: %S\r\n", err.Error())
-		//todo: output error info
+		fmt.Println("password fail", err)
 		return
 	}
 	c, err = isEmailValid(email)
 	if false == c {
-		fmt.Printf("ERROR: %S\r\n", err.Error())
-		//todo: output error info
+		fmt.Println("email fail", err)
 		return
 	}
 	d, err = isTelNumberValid(telphone)
 	if false == d {
-		fmt.Printf("ERROR: %S\r\n", err.Error())
-		//todo: output error info
+		fmt.Println("telphone fail", err)
 		return
 	}
-	//init() add to user map
-	//if _, ok := users[username]; ok {
-	//	users[username] = User{username,password,email,telphone}
-	//	fmt.Println("user register successed!")
-	//}
-
-	//todo: output successed
-	fmt.Println(username, password, email, telphone, "register successed!")
+	initialization()
+	if users.AddUser(NewUser(username, password, email, telphone)) {
+		fmt.Println(username, password, email, telphone, "register successed!")
+	} else {
+		fmt.Println(username, password, email, telphone, "register failed!")
+	}
 	return
+}
+
+func initialization() bool {
+	users = make(Usermap)
+	//meetings = ...
+	//currentuser = ...
+	return true
 }
 
 func isUserNameValid(username string) (bool, error) {
