@@ -3,11 +3,16 @@ package controller
 import (
 	"fmt"
 	//"log"
-	. "agenda/entity"
 	"regexp"
 )
 
-var users Usermap
+//var users map[string]User
+
+func init() {
+	//users = ...
+	//meetings = ...
+	//currentuser = ...
+}
 
 //初始化所有的数据结构
 func initialization() bool {
@@ -34,17 +39,20 @@ func Register(username, password, email, telphone string) {
 	}
 	b, err = isPasswordValid(password)
 	if false == b {
-		fmt.Println("password fail", err)
+		fmt.Printf("ERROR: %S\r\n", err.Error())
+		//todo: output error info
 		return
 	}
 	c, err = isEmailValid(email)
 	if false == c {
-		fmt.Println("email fail", err)
+		fmt.Printf("ERROR: %S\r\n", err.Error())
+		//todo: output error info
 		return
 	}
 	d, err = isTelNumberValid(telphone)
 	if false == d {
-		fmt.Println("telphone fail", err)
+		fmt.Printf("ERROR: %S\r\n", err.Error())
+		//todo: output error info
 		return
 	}
 	initialization()
