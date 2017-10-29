@@ -3,6 +3,8 @@ package controller
 import (
 	"fmt"
 	//"log"
+	. "agenda/entity"
+	fileio "agenda/fileio"
 	"regexp"
 )
 
@@ -17,6 +19,7 @@ func init() {
 //初始化所有的数据结构
 func initialization() bool {
 	users = make(Usermap)
+	users, _ = fileio.ReadFile("user.json")
 	//meetings = ...
 	//currentuser = ...
 	return true
@@ -39,20 +42,17 @@ func Register(username, password, email, telphone string) {
 	}
 	b, err = isPasswordValid(password)
 	if false == b {
-		fmt.Printf("ERROR: %S\r\n", err.Error())
-		//todo: output error info
+		fmt.Println("password fail", err)
 		return
 	}
 	c, err = isEmailValid(email)
 	if false == c {
-		fmt.Printf("ERROR: %S\r\n", err.Error())
-		//todo: output error info
+		fmt.Println("email fail", err)
 		return
 	}
 	d, err = isTelNumberValid(telphone)
 	if false == d {
-		fmt.Printf("ERROR: %S\r\n", err.Error())
-		//todo: output error info
+		fmt.Println("telphone fail", err)
 		return
 	}
 	initialization()
