@@ -33,7 +33,7 @@ var createMeetingCmd = &cobra.Command{
 		fmt.Println(title)
 		participants, _ := cmd.Flags().GetString("participants")
 		fmt.Println(participants)
-		participantsArray := strings.Split(participants, ",")
+		participantsArray := strings.Split(participants, " ")
 		start, _ := cmd.Flags().GetString("start")
 		fmt.Println(start)
 		end, _ := cmd.Flags().GetString("end")
@@ -53,10 +53,10 @@ var modifyMeetingCmd = &cobra.Command{
 		fmt.Println(title)
 		addStr, _ := cmd.Flags().GetString("add")
 		fmt.Println(addStr)
-		addParticipants := strings.Split(addStr, ",")
+		addParticipants := strings.Split(addStr, " ")
 		deleteStr, _ := cmd.Flags().GetString("delete")
 		fmt.Println(deleteStr)
-		deleteParticipants := strings.Split(deleteStr, ",")
+		deleteParticipants := strings.Split(deleteStr, " ")
 
 		controller.ModifyMeeting(title, addParticipants, deleteParticipants)
 	},
