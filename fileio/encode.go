@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 )
 
 func StructToJson(s interface{}) []byte {
@@ -12,6 +13,14 @@ func StructToJson(s interface{}) []byte {
 		return nil
 	}
 	return b
+}
+
+func WriteFile(filename string, data interface{}) {
+	var b []byte
+	b = StructToJson(data)
+	if b != nil {
+		ioutil.WriteFile(filename, b, os.ModeAppend)
+	}
 }
 
 func ReadFile(filename string) ([]map[string]interface{}, error) {

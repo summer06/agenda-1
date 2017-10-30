@@ -9,6 +9,7 @@ import (
 )
 
 var users Usermap
+var currentUser User
 
 //初始化所有的数据结构
 func initialization() {
@@ -22,8 +23,9 @@ func readFromFile() {
 	t, _ := fileio.ReadFile("user.json")
 	fmt.Println("t: ", t)
 	for _, u := range t {
-		//fmt.Println(u)
+		fmt.Println("user:", u)
 		// 这一句很长很丑陋的代码，里面的interface{}要断言才能使用，这里没有写断言的检查，可能引发panic
+
 		users.AddUser(NewUser(u["Username"].(string), u["Password"].(string), u["Email"].(string), u["Telephone"].(string)))
 	}
 	//todo: read meetings and current user
@@ -31,8 +33,17 @@ func readFromFile() {
 
 func writeToFile() {
 	//write users
+	var temp []User
+	for _, v := range users {
+		temp = append(temp, *v)
+	}
+	fileio.WriteFile("user.json", temp)
 	//write meetings
 	//write currentuser
+}
+
+func update() {
+	writeToFile()
 }
 
 func Register(username, password, email, telphone string) {
@@ -65,7 +76,7 @@ func Register(username, password, email, telphone string) {
 	} else {
 		fmt.Println(username, password, email, telphone, "register failed!")
 	}
-	//todo : call the writetofile func
+	update()
 	return
 }
 
