@@ -1,7 +1,7 @@
 package controller
 
 import (
-	//"fmt"
+	"fmt"
 	//"log"
 	. "agenda/entity"
 	fileio "agenda/fileio"
@@ -10,11 +10,14 @@ import (
 
 var users Usermap
 var currentUser *User
+var meetings Meetingmap
+
 var NULLUSER = NewUser("NULL", "", "", "")
 
 //初始化所有的数据结构
 func initialization() {
 	users = make(Usermap)
+	meetings = make(Meetingmap)
 	readFromFile()
 	//meetings ....
 }
@@ -35,7 +38,12 @@ func readFromFile() {
 		currentUser = NewUser(c["Username"].(string), c["Password"].(string), c["Email"].(string), c["Telephone"].(string))
 	}
 
-	//todo: read meetings
+	// read meetings
+	m, _ := fileio.ReadFile("json/meeting.json")
+	for _, meeting := range m {
+		fmt.Println("meeting:\n", meeting)
+
+	}
 }
 
 func writeToFile() {

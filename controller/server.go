@@ -44,7 +44,7 @@ func Register(username, password, email, telphone string) {
 
 func Login(username, password string) {
 	initialization()
-	//todo : check if current user alright exist
+	//check if current user alright exist
 	//if exist then suggest logout
 	if currentUser.Username != "NULL" {
 		fmt.Println("Login failed! Error : already Logined. Please logout first")
@@ -56,7 +56,7 @@ func Login(username, password string) {
 			if user.Password != password {
 				fmt.Println("Login failed : wrong password!")
 			} else {
-				// todo : change the current user and write to file
+				//change the current user and write to file
 				currentUser = user
 				fmt.Println("Login!")
 			}
@@ -77,8 +77,12 @@ func Logout() {
 
 func ListUser() {
 	initialization()
-	for user := range users {
-		fmt.Println(user)
+	if currentUser.Username != "NULL" {
+		for user := range users {
+			fmt.Println(user)
+		}
+	} else {
+		fmt.Println("Please login first!")
 	}
 }
 
