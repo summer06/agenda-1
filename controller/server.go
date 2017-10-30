@@ -46,23 +46,31 @@ func Login(username, password string) {
 	initialization()
 	//todo : check if current user alright exist
 	//if exist then suggest logout
-	//if not do follows
-	user := users.QueryUser(username)
-	if user != nil {
-		if user.Password != password {
-			fmt.Println("Login failed : wrong password!")
-		} else {
-			// todo : change the current user and write to file
-			fmt.Println("Login!")
-		}
+	if currentUser.Username != "NULL" {
+		fmt.Println("Login failed! Error : already Logined. Please logout first")
+		return
 	} else {
-		fmt.Println("Login failed : wrong user!")
+		//if not do follows
+		user := users.QueryUser(username)
+		if user != nil {
+			if user.Password != password {
+				fmt.Println("Login failed : wrong password!")
+			} else {
+				// todo : change the current user and write to file
+				currentUser = user
+				fmt.Println("Login!")
+			}
+		} else {
+			fmt.Println("Login failed : wrong user!")
+		}
 	}
+	update()
+	return
 }
 
 func Logout() {
 	initialization()
-	//todo: clear current user
+	currentUser = NULLUSER
 	update()
 	return
 }
