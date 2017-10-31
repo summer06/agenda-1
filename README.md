@@ -2,7 +2,7 @@
 
 ##### requirement：Implement a agenda CLI program
 ##### for more detail：
-file:///Users/dengxiajun/Downloads/cli-agenda(1).html
+the cli-agenda.html in qq
 
 ##### Introduction: This program allow users to register, login, logout, list user, delete user, create meeting, modify meeting, query meeting, cancel meeting, quit meeting and clear meeting. Briefly, it is a meeting management system.
 ---
