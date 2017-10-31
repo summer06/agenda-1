@@ -16,7 +16,6 @@ package cmd
 
 import (
 	"agenda/controller"
-	"fmt"
 
 	"github.com/spf13/cobra"
 )
@@ -29,13 +28,9 @@ var registerCmd = &cobra.Command{
 	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		username, _ := cmd.Flags().GetString("username")
-		fmt.Println(username)
 		password, _ := cmd.Flags().GetString("password")
-		fmt.Println(password)
 		email, _ := cmd.Flags().GetString("email")
-		fmt.Println(email)
 		telephone, _ := cmd.Flags().GetString("telephone")
-		fmt.Println(telephone)
 
 		controller.Register(username, password, email, telephone)
 	},
@@ -47,9 +42,7 @@ var loginCmd = &cobra.Command{
 	Long:  "login command is used to login, user are required to offer username and password",
 	Run: func(cmd *cobra.Command, args []string) {
 		username, _ := cmd.Flags().GetString("username")
-		fmt.Println(username)
 		password, _ := cmd.Flags().GetString("password")
-		fmt.Println(password)
 
 		controller.Login(username, password)
 	},
@@ -60,7 +53,6 @@ var logoutCmd = &cobra.Command{
 	Short: "user logout",
 	Long:  "logout command is used to logout a user.",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("user logout")
 		controller.Logout()
 	},
 }
@@ -70,7 +62,6 @@ var listUserCmd = &cobra.Command{
 	Short: "list all the registered users",
 	Long:  "listUser command help user to see all the registered user.",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list all users")
 		controller.ListUser()
 	},
 }
@@ -80,7 +71,6 @@ var deleteUserCmd = &cobra.Command{
 	Short: "delete current user",
 	Long:  "deleteUser command is used to delete the current user.",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete current user")
 		controller.DeleteUser()
 	},
 }

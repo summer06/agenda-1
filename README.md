@@ -45,3 +45,60 @@ Here we design 11 commands for users to use.
 - clear all meetings
 
   `$ ./agenda clearMeeting`
+
+
+#### Data structure
+we use a User struct to record information of each user, and we use Meeting struct to record information of a meeting. Then we use a map named Usermap to collect each user and a Meetingmap to collect each meeting.
+```
+type User struct {
+	Username  string
+	Password  string
+	Email     string
+	Telephone string
+}
+type Usermap map[string]*User
+```
+```
+type Meeting struct {
+	Host         string
+	Title        string
+	Participants []string
+	Start        string
+	End          string
+}
+type Meetingmap map[string]*Meeting
+```
+---
+### Implement Detail
+#### cobra
+Package cobra is a commander providing a simple interface to create powerful modern CLI interfaces. In addition to providing an interface, Cobra simultaneously provides a controller to organize your application code.
+
+In this project, we use cobra to construct a framework, and some cobra functions really help.
+
+for example, we use `cobra.Command` to create a command and use `RootCmd.AddCommand` to conveniently add the command to parent command.
+
+here is one of our commands.
+
+```
+var registerCmd = &cobra.Command{
+	Use:   "register",
+	Short: "user register",
+	Long: `register command is used to register a new user, you are required to offer
+	username, password, email and telephone number.
+	`,
+	Run: func(cmd *cobra.Command, args []string) {
+		username, _ := cmd.Flags().GetString("username")
+		fmt.Println(username)
+		password, _ := cmd.Flags().GetString("password")
+		fmt.Println(password)
+		email, _ := cmd.Flags().GetString("email")
+		fmt.Println(email)
+		telephone, _ := cmd.Flags().GetString("telephone")
+		fmt.Println(telephone)
+
+		controller.Register(username, password, email, telephone)
+	},
+}
+```
+It is easy to build command line program with cobra.
+For more about cobra, see this https://godoc.org/github.com/spf13/cobra
