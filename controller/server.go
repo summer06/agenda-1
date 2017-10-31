@@ -174,9 +174,15 @@ func QueryMeeting(starttime string, endtime string) {
 	initialization()
 
 	if isLogined() {
-		// tode: 正则表达式检查时间
+		t, _ := isTimeValid(starttime)
+		r, _ := isTimeValid(endtime)
+		if t == false || r == false {
+			fmt.Println("time wrong!")
+		}
 		meeting := meetings.QueryMeeting(starttime, endtime, currentUser.Username)
-		fmt.Println(meeting)
+		for _, value := range meeting {
+			fmt.Println(value)
+		}
 	}
 	update()
 	return

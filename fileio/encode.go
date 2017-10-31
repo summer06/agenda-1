@@ -25,22 +25,22 @@ func WriteFile(filename string, data interface{}) {
 }
 
 func ReadFile(filename string) ([]map[string]interface{}, error) {
-	if checkFileExist(string) {
+	if checkFileIsExist(filename) {
 		bytes, err := ioutil.ReadFile(filename)
 		if err != nil {
 			fmt.Println("ReadFile: ", err.Error())
 			return nil, err
 		}
+		var xxx []map[string]interface{}
+		if err := json.Unmarshal(bytes, &xxx); err != nil {
+			fmt.Println("Unmarshal: ", err.Error())
+			return nil, err
+		}
+		return xxx, nil
 	} else {
 		os.Create(filename)
 		return nil, nil
 	}
-	var xxx []map[string]interface{}
-	if err := json.Unmarshal(bytes, &xxx); err != nil {
-		fmt.Println("Unmarshal: ", err.Error())
-		return nil, err
-	}
-	return xxx, nil
 }
 
 func checkFileIsExist(filename string) bool {
