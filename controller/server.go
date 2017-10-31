@@ -197,6 +197,8 @@ func QuitMeeting(title string) {
 	if isLogined() {
 		if meetings.QuitMeeting(title, currentUser.Username) {
 			fmt.Println("quit successed!")
+		} else {
+			fmt.Println("title wrong or you aren't hostor!")
 		}
 	}
 	update()
@@ -209,6 +211,8 @@ func CancelMeeting(title string) {
 	if isLogined() {
 		if meetings.CancelMeeting(title, currentUser.Username) {
 			fmt.Println("meeting cancle successed!")
+		} else {
+			fmt.Println("meeting title wrong or you aren't hostor!")
 		}
 	}
 	update()
