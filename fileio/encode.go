@@ -4,9 +4,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	//	"log"
+	"log"
 	"os"
 )
+
+func logsome(s string) {
+	fileName := "l.log"
+	file, err := os.OpenFile(fileName, os.O_CREATE|os.O_APPEND, os.ModePerm|os.ModeTemporary)
+	if err != nil {
+		fmt.Print("ERROR: ", err.Error)
+	}
+	logger := log.New(file, "[Fileio]", log.Llongfile)
+	logger.Println("file io log:")
+	logger.Println(s)
+}
 
 func StructToJson(s interface{}) []byte {
 	b, err := json.Marshal(s)
@@ -22,9 +33,11 @@ func WriteFile(filename string, data interface{}) {
 	if b != nil {
 		ioutil.WriteFile(filename, b, os.ModeAppend)
 	}
+	logsome(filename)
 }
 
 func ReadFile(filename string) ([]map[string]interface{}, error) {
+	logsome(filename)
 	if checkFileIsExist(filename) {
 		bytes, err := ioutil.ReadFile(filename)
 		if err != nil {
@@ -38,7 +51,8 @@ func ReadFile(filename string) ([]map[string]interface{}, error) {
 		}
 		return xxx, nil
 	} else {
-		os.Create(filename)
+		file, _ := os.Create(filename)
+		defer file.Close()
 		return nil, nil
 	}
 }
