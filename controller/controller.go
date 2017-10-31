@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"fmt"
+	//"fmt"
 	//"log"
 	. "agenda/entity"
 	fileio "agenda/fileio"
@@ -74,7 +74,7 @@ func writeToFile() {
 	var allmeeting []Meeting
 	for _, m := range meetings {
 		allmeeting = append(allmeeting, *m)
-		fmt.Println("meeting: \n", m)
+		//fmt.Println("meeting: \n", m)
 	}
 	fileio.WriteFile("json/meeting.json", allmeeting)
 	//write meetings

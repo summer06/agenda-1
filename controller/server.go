@@ -144,27 +144,31 @@ func CreateMeeting(title string, participators []string, starttime string, endti
 func ModifyMeeting(title string, addedparticipators []string, deletedparticipators []string) {
 	initialization()
 	if isLogined() {
-		for _, s := range addedparticipators {
-			if users.QueryUser(s) == nil {
-				fmt.Println("Modify Meeting failed! invalid user")
+		if len(addedparticipators) != 0 {
+			for _, s := range addedparticipators {
+				if users.QueryUser(s) == nil {
+					fmt.Println("Modify Meeting failed! invalid user")
+					return
+				}
+			}
+			if meetings.AddParticipants(title, addedparticipators) == false {
+				fmt.Println("Modify Meeting failed! invalid title or add user")
 				return
 			}
 		}
-		if meetings.AddParticipants(title, addedparticipators) == false {
-			fmt.Println("Modify Meeting failed! invalid title or add user")
-			return
-		}
-		for _, s := range deletedparticipators {
-			if users.QueryUser(s) == nil {
-				fmt.Println("Modify Meeting failed! invalid user")
+		if len(deletedparticipators) != 0 {
+			for _, s := range deletedparticipators {
+				if users.QueryUser(s) == nil {
+					fmt.Println("Modify Meeting failed! invalid user")
+					return
+				}
+			}
+			if meetings.DeleteParticipants(title, deletedparticipators) == false {
+				fmt.Println("Modify Meeting failed! invalid title or delete user")
 				return
 			}
 		}
-
-		if meetings.DeleteParticipants(title, deletedparticipators) == false {
-			fmt.Println("Modify Meeting failed! invalid title or delete user")
-			return
-		}
+		fmt.Println("Modify Meeting successed!")
 	}
 	update()
 	return
@@ -174,9 +178,15 @@ func QueryMeeting(starttime string, endtime string) {
 	initialization()
 
 	if isLogined() {
-		// tode: 正则表达式检查时间
+		t, _ := isTimeValid(starttime)
+		r, _ := isTimeValid(endtime)
+		if t == false || r == false {
+			fmt.Println("time wrong!")
+		}
 		meeting := meetings.QueryMeeting(starttime, endtime, currentUser.Username)
-		fmt.Println(meeting)
+		for _, value := range meeting {
+			fmt.Println(value)
+		}
 	}
 	update()
 	return
