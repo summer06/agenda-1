@@ -24,8 +24,6 @@ func NewMeeting(n_title, n_start, n_end string, n_host string, n_participants []
 
 type Meetingmap map[string]*Meeting
 
-//下面的方法接收者为map类型，不知道是否会出现没有对原对象赋值的情况，留意！
-
 //添加会议
 func (meetingmap Meetingmap) AddMeeting(meeting *Meeting) bool {
 	_, ok := meetingmap[meeting.Title]
@@ -108,8 +106,6 @@ func (meetingmap Meetingmap) MeetingParticipated(participant string) Meetingmap 
 }
 
 //查找某一时间段内的会议
-//默认在调用前检查start和end的前后关系
-//检查方法：用time.Parse转化成time格式后，用end_t.After(start_t)返回真假判断
 func (meetingmap Meetingmap) QueryMeeting(start, end, username string) Meetingmap {
 	resultMeeting := make(Meetingmap)
 	start_t, _ := time.Parse("2006-01-02 15:04:05", start)

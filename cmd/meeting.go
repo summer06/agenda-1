@@ -16,7 +16,6 @@ package cmd
 
 import (
 	"agenda/controller"
-	"fmt"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -30,14 +29,10 @@ var createMeetingCmd = &cobra.Command{
 	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		title, _ := cmd.Flags().GetString("title")
-		fmt.Println(title)
 		participants, _ := cmd.Flags().GetString("participants")
-		fmt.Println(participants)
 		participantsArray := strings.Split(participants, " ")
 		start, _ := cmd.Flags().GetString("start")
-		fmt.Println(start)
 		end, _ := cmd.Flags().GetString("end")
-		fmt.Println(end)
 
 		controller.CreateMeeting(title, participantsArray, start, end)
 	},
@@ -50,12 +45,9 @@ var modifyMeetingCmd = &cobra.Command{
 	delete participants to a specific meeting.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		title, _ := cmd.Flags().GetString("title")
-		fmt.Println(title)
 		addStr, _ := cmd.Flags().GetString("add")
-		fmt.Println(addStr)
 		addParticipants := strings.Split(addStr, " ")
 		deleteStr, _ := cmd.Flags().GetString("delete")
-		fmt.Println(deleteStr)
 		deleteParticipants := strings.Split(deleteStr, " ")
 
 		controller.ModifyMeeting(title, addParticipants, deleteParticipants)
@@ -69,9 +61,7 @@ var queryMeetingCmd = &cobra.Command{
 	space, user may be host or participant of these meetings`,
 	Run: func(cmd *cobra.Command, args []string) {
 		start, _ := cmd.Flags().GetString("start")
-		fmt.Println(start)
 		end, _ := cmd.Flags().GetString("end")
-		fmt.Println(end)
 
 		controller.QueryMeeting(start, end)
 	},
@@ -83,7 +73,6 @@ var cancelMeetingCmd = &cobra.Command{
 	Long:  `The cancelMeeting command allow user to cancel a meeting as a host`,
 	Run: func(cmd *cobra.Command, args []string) {
 		title, _ := cmd.Flags().GetString("title")
-		fmt.Println(title)
 
 		controller.CancelMeeting(title)
 	},
@@ -95,7 +84,6 @@ var quitMeetingCmd = &cobra.Command{
 	Long:  `The quitMeeting command allow user to quit a meeting as a participant`,
 	Run: func(cmd *cobra.Command, args []string) {
 		title, _ := cmd.Flags().GetString("title")
-		fmt.Println(title)
 
 		controller.QuitMeeting(title)
 	},
@@ -107,7 +95,6 @@ var clearMeetingCmd = &cobra.Command{
 	Long: `The clearMeeting command allow user to clear all the meeting in which the
 	 user is host`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("clear all meetings")
 
 		controller.ClearMeeting()
 	},
