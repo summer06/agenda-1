@@ -123,6 +123,12 @@ func CreateMeeting(title string, participators []string, starttime string, endti
 				return
 			}
 		}
+		t, _ := isTimeValid(starttime)
+		r, _ := isTimeValid(endtime)
+		if t == false || r == false {
+			fmt.Println("wrong time")
+			return
+		}
 		if meetings.AddMeeting(NewMeeting(title, starttime, endtime, currentUser.Username, participators)) == false {
 			fmt.Println("filed!")
 			return
@@ -165,14 +171,24 @@ func ModifyMeeting(title string, addedparticipators []string, deletedparticipato
 }
 
 func QueryMeeting(starttime string, endtime string) {
-
 	initialization()
+
+	if isLogined() {
+		// tode: 正则表达式检查时间
+		meeting := meetings.QueryMeeting(starttime, endtime, currentUser.Username)
+		fmt.Println(meeting)
+	}
 	update()
 	return
 }
 
 func QuitMeeting(title string) {
 	initialization()
+	if isLogined() {
+		if meetings.QuitMeeting(title, currentUser.Username) {
+			fmt.Println("quit successed!")
+		}
+	}
 	update()
 	return
 }
@@ -180,6 +196,11 @@ func QuitMeeting(title string) {
 func CancelMeeting(title string) {
 
 	initialization()
+	if isLogined() {
+		if meetings.CancelMeeting(title, currentUser.Username) {
+			fmt.Println("meeting cancle successed!")
+		}
+	}
 	update()
 	return
 }
@@ -187,6 +208,11 @@ func CancelMeeting(title string) {
 func ClearMeeting() {
 
 	initialization()
+	if isLogined() {
+		if meetings.ClearMeeting(currentUser.Username) {
+			fmt.Println("clear meeting successed!")
+		}
+	}
 	update()
 	return
 }
@@ -220,6 +246,15 @@ func isEmailValid(email string) (bool, error) {
 
 func isTelNumberValid(telNum string) (bool, error) {
 	m, err := regexp.MatchString("^[0-9]{11}$", telNum)
+	if m {
+		return true, err
+	} else {
+		return false, err
+	}
+}
+
+func isTimeValid(time string) (bool, error) {
+	m, err := regexp.MatchString("^[0-9]{4}-[0-9]{2}-[0-9]{2}\\s[0-9]{2}:[0-9]{2}:[0-9]{2}$", time)
 	if m {
 		return true, err
 	} else {
