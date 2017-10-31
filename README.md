@@ -137,3 +137,4 @@ func ReadFile(filename string) ([]map[string]interface{}, error) {
 #### package
 Actually, all package we made is in the $GOPATH/src/agenda/(dirname) from. As we know, the golang package import is the path of the package, so may be it will something wrong when change the absolute path of package.
 
+In some blog, we ususlly see those people use $GOPATH/src/github.com./(his/her username)/(some project name). It may be some reason in it, but we don't know.
