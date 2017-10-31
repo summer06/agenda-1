@@ -42,11 +42,19 @@ func Register(username, password, email, telphone string) {
 	return
 }
 
+func isLogined() bool {
+	if currentUser.Username != "NULL" {
+		return true
+	} else {
+		return false
+	}
+}
+
 func Login(username, password string) {
 	initialization()
 	//check if current user alright exist
 	//if exist then suggest logout
-	if currentUser.Username != "NULL" {
+	if isLogined() {
 		fmt.Println("Login failed! Error : already Logined. Please logout first")
 		return
 	} else {
@@ -70,14 +78,22 @@ func Login(username, password string) {
 
 func Logout() {
 	initialization()
-	currentUser = NULLUSER
+	if isLogined() {
+		logout()
+	} else {
+		fmt.Println("Logout failed : no logined user!")
+	}
 	update()
 	return
 }
 
+func logout() {
+	currentUser = NULLUSER
+}
+
 func ListUser() {
 	initialization()
-	if currentUser.Username != "NULL" {
+	if isLogined() {
 		for user := range users {
 			fmt.Println(user)
 		}
@@ -87,22 +103,63 @@ func ListUser() {
 }
 
 func DeleteUser() {
-
 	initialization()
+	if isLogined() {
+		users.DeleteUser(currentUser.Username)
+		logout()
+	} else {
+		fmt.Println("delete failed! not login.")
+	}
 	update()
 	return
 }
 
 func CreateMeeting(title string, participators []string, starttime string, endtime string) {
-
 	initialization()
+	if isLogined() {
+		for _, s := range participators {
+			if users.QueryUser(s) == nil {
+				fmt.Println("Create Meeting failed! invalid user")
+				return
+			}
+		}
+		if meetings.AddMeeting(NewMeeting(title, starttime, endtime, currentUser.Username, participators)) == false {
+			fmt.Println("filed!")
+			return
+		}
+		fmt.Println("Create Meeting successed!")
+	} else {
+		fmt.Println("Please login first!")
+	}
 	update()
 	return
 }
 
 func ModifyMeeting(title string, addedparticipators []string, deletedparticipators []string) {
-
 	initialization()
+	if isLogined() {
+		for _, s := range addedparticipators {
+			if users.QueryUser(s) == nil {
+				fmt.Println("Modify Meeting failed! invalid user")
+				return
+			}
+		}
+		if meetings.AddParticipants(title, addedparticipators) == false {
+			fmt.Println("Modify Meeting failed! invalid title or add user")
+			return
+		}
+		for _, s := range deletedparticipators {
+			if users.QueryUser(s) == nil {
+				fmt.Println("Modify Meeting failed! invalid user")
+				return
+			}
+		}
+
+		if meetings.DeleteParticipants(title, deletedparticipators) == false {
+			fmt.Println("Modify Meeting failed! invalid title or delete user")
+			return
+		}
+	}
 	update()
 	return
 }

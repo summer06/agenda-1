@@ -41,8 +41,19 @@ func readFromFile() {
 	// read meetings
 	m, _ := fileio.ReadFile("json/meeting.json")
 	for _, meeting := range m {
-		fmt.Println("meeting:\n", meeting)
+		//fmt.Println("meeting:\n", meeting)
 
+		host := meeting["Host"].(string)
+		title := meeting["Title"].(string)
+		tempParticipants := meeting["Participants"].([]interface{})
+		start := meeting["Start"].(string)
+		end := meeting["End"].(string)
+		var participants []string
+		for _, p := range tempParticipants {
+			participants = append(participants, p.(string))
+		}
+
+		meetings.AddMeeting(NewMeeting(title, start, end, host, participants))
 	}
 }
 
@@ -53,12 +64,20 @@ func writeToFile() {
 		alluser = append(alluser, *v)
 	}
 	fileio.WriteFile("json/user.json", alluser)
-	//write meetings
+
+	//write currentuser
 	var current []User
 	current = append(current, *currentUser)
 	//fmt.Println("###", current, "###")
 	fileio.WriteFile("json/current.json", current)
-	//write currentuser
+
+	var allmeeting []Meeting
+	for _, m := range meetings {
+		allmeeting = append(allmeeting, *m)
+		fmt.Println("meeting: \n", m)
+	}
+	fileio.WriteFile("json/meeting.json", allmeeting)
+	//write meetings
 }
 
 func update() {
