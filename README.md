@@ -102,3 +102,34 @@ var registerCmd = &cobra.Command{
 ```
 It is easy to build command line program with cobra.
 For more about cobra, see this https://godoc.org/github.com/spf13/cobra
+
+#### json
+
+we use the encode/json to encode and decode the json file to the struct
+
+in our package fileio , we implement the file write/read and marshal/unmarshal function, and provide two func for controller to use it. for that these two func can be used universally, it just return the type []interface{}, witch is the slice of the universal type interface{}. interface{} means empty interface that have nothing need to implement, so any type implement the interface{}.
+
+``` lang=golang
+func ReadFile(filename string) ([]map[string]interface{}, error) {
+    logsome(filename)
+    if checkFileIsExist(filename) {
+        bytes, err := ioutil.ReadFile(filename)
+        if err != nil {
+            fmt.Println("ReadFile: ", err.Error())
+            return nil, err
+        }
+        var xxx []map[string]interface{}
+        if err := json.Unmarshal(bytes, &xxx); err != nil {
+            fmt.Println("Unmarshal: ", err.Error())
+            return nil, err
+        }
+        return xxx, nil
+    } else {
+        file, _ := os.Create(filename)
+        defer file.Close()
+        return nil, nil
+    }
+}
+
+
+```
