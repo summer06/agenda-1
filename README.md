@@ -138,3 +138,19 @@ func ReadFile(filename string) ([]map[string]interface{}, error) {
 Actually, all package we made is in the $GOPATH/src/agenda/(dirname) from. As we know, the golang package import is the path of the package, so may be it will something wrong when change the absolute path of package.
 
 In some blog, we ususlly see those people use $GOPATH/src/github.com./(his/her username)/(some project name). It may be some reason in it, but we don't know.
+
+
+### Test
+
+![test](http://img.blog.csdn.net/20171101165913097?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZDRzbmFw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+For testing the agenda, we use go install rather than go build. so that , we can use 'agenda' instant of './agenda'.
+Then we register a new user as 'myname',with "password 123456". we can see it register success. for making sure we got it, wo use 'myname' to login and list all user's info. and we got all user. 
+myname   ddd@live.com   15913324123
+
+then we test the meeting part, we create a meeting 'mymeeting' ,and modify this meeting.
+to make sure what we do is already work, we use querymeeting to search this meeting and get its details.
+![test](http://img.blog.csdn.net/20171101170855653?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZDRzbmFw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+after create and modify, we test quit meeting. we change to user 'another'. here you can see, if password wrong, login will fail.
+'another' is one of the participators in 'mymeeting', so it can quit meeting.
