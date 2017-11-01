@@ -67,16 +67,22 @@ func writeToFile() {
 
 	//write currentuser
 	var current []User
-	current = append(current, *currentUser)
+	if currentUser != nil {
+		current = append(current, *currentUser)
+	}
 	//fmt.Println("###", current, "###")
-	fileio.WriteFile("json/current.json", current)
+	if len(current) != 0 {
+		fileio.WriteFile("json/current.json", current)
+	}
 
 	var allmeeting []Meeting
 	for _, m := range meetings {
 		allmeeting = append(allmeeting, *m)
 		//fmt.Println("meeting: \n", m)
 	}
-	fileio.WriteFile("json/meeting.json", allmeeting)
+	if len(allmeeting) != 0 {
+		fileio.WriteFile("json/meeting.json", allmeeting)
+	}
 	//write meetings
 }
 
