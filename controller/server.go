@@ -94,8 +94,8 @@ func logout() {
 func ListUser() {
 	initialization()
 	if isLogined() {
-		for user := range users {
-			fmt.Println(user)
+		for _, user := range users {
+			fmt.Println(user.Username, " ", user.Email, " ", user.Telephone)
 		}
 	} else {
 		fmt.Println("Please login first!")
