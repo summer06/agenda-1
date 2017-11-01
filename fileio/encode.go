@@ -39,7 +39,7 @@ func WriteFile(filename string, data interface{}) {
 func ReadFile(filename string) ([]map[string]interface{}, error) {
 	logsome(filename)
 	if checkFileIsExist(filename) {
-		fmt.Println("read file :", filename)
+		//fmt.Println("read file :", filename)
 		bytes, err := ioutil.ReadFile(filename)
 		if err != nil {
 			fmt.Println("ReadFile: ", err.Error())

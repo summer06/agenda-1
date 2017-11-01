@@ -144,10 +144,11 @@ func CreateMeeting(title string, participators []string, starttime string, endti
 func ModifyMeeting(title string, addedparticipators []string, deletedparticipators []string) {
 	initialization()
 	if isLogined() {
-		if len(addedparticipators) != 0 {
+		//fmt.Println("add user", addedparticipators[0], len(addedparticipators))
+		if addedparticipators != nil && addedparticipators[0] != "" {
 			for _, s := range addedparticipators {
 				if users.QueryUser(s) == nil {
-					fmt.Println("Modify Meeting failed! invalid user")
+					fmt.Println("add participators failed! invalid user")
 					return
 				}
 			}
@@ -156,10 +157,10 @@ func ModifyMeeting(title string, addedparticipators []string, deletedparticipato
 				return
 			}
 		}
-		if len(deletedparticipators) != 0 {
+		if deletedparticipators != nil && deletedparticipators[0] != "" {
 			for _, s := range deletedparticipators {
 				if users.QueryUser(s) == nil {
-					fmt.Println("Modify Meeting failed! invalid user")
+					fmt.Println("delete participators failed! invalid user")
 					return
 				}
 			}
