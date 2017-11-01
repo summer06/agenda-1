@@ -8,11 +8,11 @@ import (
 	//"regexp"
 )
 
-var users Usermap
-var currentUser *User
-var meetings Meetingmap
-
 var NULLUSER = NewUser("NULL", "", "", "")
+
+var users Usermap
+var currentUser *User = NULLUSER
+var meetings Meetingmap
 
 //初始化所有的数据结构
 func initialization() {
